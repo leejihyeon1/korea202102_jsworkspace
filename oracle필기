@@ -1,0 +1,102 @@
+[ QR 출석 미처리 ]
+좌측화면 QR찍으셔도 됩니다
+김도균
+Oracle , MySQL
+
+ [ 맥 유저 명령어 ] 
+docker images  내가 보유한 이미지를 조회한다 
+docker ps 현재 가동중이니 컨테이너가 있는지 확인한다 
+docker run --name myoracle -d -p 1521:1521  jaspeen/oracle-xe-11g   다운받은 이미지를 통해 컨테이너 실행
+docker exec -it sqlplus
+---------------------------------------------------------------------------------------------
+오라클 가동 하는 법 
+1.service 에서  OracleServiceXE를 실행한다
+2.오라클에 접속
+  win + R 로 커맨트  창을 띄우고 cmd라고 입력하자 (dos창 열자 )
+  SQLPlus라는 접속 클라이언트가 이미 설치가 되어있으므로, 이 프로그램을
+  호출하자!!
+  c:/> sqlplus 라고 입력
+   Enter user-name: sys   (오라클의 최고 관리자명)
+   Enter password: admin1234/ as sysdba ( sysdba권한으로...)
+   Enter user-name: sys/admin1234 as sysdba  한줄로도 가능 
+
+   *참고) 접속시 비번을 치지 않아도 가능!!
+           전제조건: 내가 현재 pc의 administrator 이어야 한다. 
+           즉 오라클을 설치한 관리자
+           sqlplus sys/ as sysdba
+
+3.system사용자로 전환하여 로그인 
+  sys계정은 막대한 권한을 가진 관리자 권한이므로, 특별한 경우가 아니면
+  대부분의 관리 업무는 system 관리자 계정을 사용하자!!
+  SQL> 프롬프트는 이미 내가 오라클에 접속되어 있다는 의미이므로, 
+         다른 계정으로 접속을 시도하려면 이 상태에서 
+         connect system/admin1234 
+  
+접속 확인 방법 :  다른 계정으로 접속한 후 제대로 된건지 확인
+	show user;
+
+-----------------------------------------------------------------------------------------
+시나리오 : 프로젝트가 시작되기 전, 우리의 웹사이트에서 사용할 계정과 데이터베이스를 생성하자!
+
+1) 데이터베이스 파일을 생성하자!
+	엑셀:xls, 포토샵:psd, 오라클:dbf
+
+	create tablespace frontspace
+	datafile 'C:\oraclexe\app\oracle\oradata\XE\frontspace.dbf'
+	size 1m;
+
+2) 유저 만들기
+	create user front
+	identified by 1234
+	default tablespace frontspace
+	quota unlimited on frontspace;
+
+3) 방금 만든 사용자로 접근하기
+    이미 오라클에 접속된 상태이므로 SQL>프롬프트가 떠있다면 접속만 바꾸면 됨!
+	SQL>conn front/1234
+
+	결과 ) 접속 권한 에러..... 
+
+4) system권한으로 다시 전환하여 유저에게 필요한 권한을 주자!
+    접속에 실패했으므로, 다시 system으로 접속하자!
+	SQL> conn system/admin1234
+	
+	grant create session to front;
+
+5) 다시 front 유저로 접속
+	conn front/1234
+
+6) 접속을 성공했다면, 데이터를 누적 시켜보자!
+    데이터는, 인간이 보기에 가장 편한 표 형태를 사용한다!!
+(--ed 입력해서 편집기 사용--,--저장하고 ALT+F4--,--엔터 후 run(=/) 입력--)
+	create table student(
+	name varchar(20),
+	money number,
+	regdate date
+	)
+	
+//create table student(
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges -----> 이런 에러가 뜨는 것은 권한이 없다는 뜻! 
+아래 7번을 이용해 테이블 권한을 추가한 뒤 front로 변경해서 다시 6번 코드를 이용해 테이블 만들기//
+
+7) 테이블 권한 추가(system으로 접속 변경)
+	conn system/admin1234
+	show user
+// 세미콜론은 언제 적용해야 하는가?
+    오라클 포함해서 데이터베이스가 이해할 수 있는 언어 = SQL
+    SQL문은 반드시 세미콜론이 들어가야함! 문법이기 때문!
+    but, 우리가 사용중인 SQLPlus는 오라클 접속 프로그램이므로
+    이 프로그램 자체 명령어는 세미콜론이 필요없다. //
+	
+	grant create table to front;
+
+--> 그 다음 front로 접속하여 6번의 코드로 테이블 만들기 
+
+
+
+
+
+
+
