@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>여기에 판단 결과 나올 곳</h1>
+
+    <script>    // 함수(function)를 넣는 경우는 head에 넣는게 일반적
+                    // but, 함수 사용 안할때는 닫는body 직전에 넣는게 트렌드   
+        
+        var msg; //짝수,홀수 라는 문자열을 담게 될 변수 
+
+        //프롬프트 창은 사용자가 입력한 데이터를 받아올 수 있다
+        var result= prompt("원하시는 수를 입력하세요.");   //메세지 입력 창
+        alert("당신이 입력한 수는 "+result);
+       
+        isNaN(result);    //isNaN(데이터) is Not a Number : 즉 숫자가 아니면 true
+
+        var ans= (isNaN(result))? "숫자 아님":"숫자";
+        alert(ans);
+        
+        //참이면 짝수, 거짓이면 홀수
+        msg=(result%2==0)? "짝수":"홀수";
+        document.querySelector("h1").innerText=msg+"입니다";
+    </script>
+</body>
+</html>

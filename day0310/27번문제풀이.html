@@ -1,0 +1,15 @@
+<script>
+    //반복문은 처음과 끝 값을 지정해야 한다!
+
+    // 프롬프트는 무조건 문자열! 쌍따옴표가 항상 붙어있음!!
+    //***prompt로 숫자를 입력받을 땐 parseInt로 감싸주는 것(정수화)이 더 좋음!***
+    var n=prompt("원하는 수를 입력하세요");     //가운데 수 역할==> parseInt(prompt()) 가능!
+    var first=n-1;
+    //parseInt(n) :문자열인 "n"을 정수로 변환! 따라서 쌍따옴표가 제거됨!
+    var last=parseInt(n)+1;
+
+        for(var i=first; i<=last; i++){
+            document.write(i+"&nbsp;&nbsp");
+        }
+    
+</script>

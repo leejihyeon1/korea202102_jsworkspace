@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #human{
+            left: 0px;
+            top: 150px;
+            position: absolute;
+        }
+    </style>
+
+    <script>
+        var x=0;
+        var step=50;
+        function move(){
+            x+=step;    //50만큼 이동하기도 50만큼 뒤로 돌아오기도 하기 때문!
+
+            document.querySelector("#human").style.left= x+"px";    //오른쪽으로 이동
+            document.querySelector("h1").innerText="x값->"+x;  //x값 증가 표시
+
+
+          step=(x%500==0)? -step:step;  //참이면 x-50 거짓이면 x=50
+          document.querySelector("#human").style.left=x+"px";   //x에 step이 들어있음
+        }
+    </script>
+</head>
+
+<body>
+    <button onclick="move()">움직이기</button>
+    <h1>x값->0</h1>
+    <img id="human" src="../images/run.png" width="100px">
+</body>
+</html>

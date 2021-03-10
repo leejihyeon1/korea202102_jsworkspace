@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>윤년 여부</h1>
+
+    <script>
+        var yoon;
+        var year=prompt("년도를 입력하세요.");
+
+        yoon=(year%4==0)? "윤년이 있는 해" : "윤년이 없는 해";
+        document.querySelector("h1").innerText=yoon;
+    </script>
+</body>
+</html>
