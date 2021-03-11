@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #zzanggu{
+            width: 80px;
+        }
+    </style>
+    <script>
+        //목표지점에 한걸음에 도착하면, 순간이동이 되므로 자연스럽지 못함
+        //더 부드러운 효과를 내려면, 감속도 처리 해야하고 이 감속도 처리는 
+        //많은 분야의 애니메이션에서 이용함
+        var targetX=500;    //짱구가 도달할 목표지점의 x좌표
+        var a=0.1;  //비율을 표현하는 비율계수
+        var zzanggu;
+
+        //문서가 로드되면, 짱구의 스타일 포지션 값을 자바스크립트에서 지정
+        window.addEventListener("load",function(){
+            zzanggu=document.getElementById("zzanggu");
+            zzanggu.style.position="absolute";
+            zzanggu.style.left=0+"px";
+            zzanggu.style.top=200+"px";
+            console.log("현재 짱구의 x위치는 "+zzanggu.style.left);
+
+        });
+        function move(){
+            // zzanggu.style.left=targetX+"px"; //순간이동
+            // 공식 : 물체위치=현재위치+(목표지점-내위치)*a
+            zzanggu.style.left=parseInt(zzanggu.style.left)+(targetX-parseInt(zzanggu.style.left))*a+"px";
+
+            setTimeout("move()",100);
+        }
+    </script>
+</head>
+<body>
+    <button onclick="move()">움직이기</button>
+    <!-- 현재 위치를 개발자모드에서 "50px" 이런식으로 문자열로 인식하기 때문에 숫자로 인식시키기 위해 바디에 스타일을 적는다
+    아니면 문서 로드 시 이미지의 스타일을 지정 -->
+    <img src="../images/zzanggu.png" id="zzanggu" >
+</body>
+</html>

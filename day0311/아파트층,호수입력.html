@@ -1,0 +1,27 @@
+<script>
+    window.addEventListener("load",function(){
+    createTable();
+});
+
+function createTable(){
+    var a=parseInt(prompt("원하는 층수를 입력하세요"));
+    var b=parseInt(prompt("원하는 호수를 입력하세요"));
+    var c=parseInt(prompt("콘크리트 두께를 입력하세요"));
+    
+    var table=document.createElement("table");    //<table></table>
+    table.width=300+"px";
+    table.border= c+"px solid red";
+    
+    
+    for(i=a; i>=1; i--){
+        var tr=document.createElement("tr");
+        for(j=1; j<=b; j++){
+            var td=document.createElement("td");
+            td.innerText=i+"0"+j+"호";
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+    }
+    document.body.appendChild(table);
+}
+</script>

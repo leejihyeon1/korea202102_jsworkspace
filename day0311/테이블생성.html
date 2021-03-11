@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // document.write()는 문자열에 태그를 넣어 출력하는 방식이었음
+        // 하지만, 이 방식만 있는게 아니라 , createElement()를 이용할 수도 있다
+
+        window.addEventListener("load",function(){
+            createTable();
+        });
+
+        function createTable(){
+            var table=document.createElement("table");    //<table></table>
+            table.width=300+"px";
+            table.border=1+"px solid red";
+
+            //tr생성
+            for(var x=7; x>=1;x--){
+            var tr=document.createElement("tr");    //<tr></tr>
+                for(var i=1; i<=3; i++){
+                var td=document.createElement("td");    //<td></td>
+                td.innerText=x+"0"+i+"호";
+                tr.appendChild(td);
+            };
+            table.appendChild(tr);  //tr을 table에 부착
+          };
+            //다 조립된 테이블을 마지막에 바디에 부착
+            document.body.appendChild(table);//body에 부착
+
+        }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
