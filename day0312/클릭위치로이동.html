@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{margin:0px;}
+        .wrapper{
+            width: 100%;
+            height: 700px;
+            background-color: yellow;
+            position: relative;
+        }
+        #zzanggu{
+            width: 100px;
+        }
+    </style>
+    <script>
+        var zzanggu;    //다른 함수들에서 접근하기 위해
+        var targetX=0;  //도달할 목표지점의 x좌표
+        var targetY=0;  //도달할 목표지점의 y좌표
+        var a=0.1;  //이동 속도
+
+        function init(){
+            zzanggu=document.getElementById("zzanggu");
+            zzanggu.style.position="absolute";
+            zzanggu.style.left=100+"px";
+            zzanggu.style.top=50+"px";
+
+        }
+
+        function getPos(){
+            targetX=event.clientX;  //짱구의 목표지점 x설정
+            targetY=event.clientY;  //짱구의 목표지점 y설정
+            console.log("x=",targetX,"y=",targetY);
+        }
+
+        function move(){
+            //구해진 마우스 좌표를 이용하여, 짱구의 위치로 이용해보자!
+            zzanggu.style.left=parseFloat(zzanggu.style.left)+(targetX-parseFloat(zzanggu.style.left))*a+"px";
+            zzanggu.style.top=parseFloat(zzanggu.style.top)+(targetY-parseFloat(zzanggu.style.top))*a+"px";
+        }
+
+        window.addEventListener("load",function(){
+            init();
+            setInterval("move()",50);
+        });
+    </script>
+</head>
+<body onmousedown="getPos();">
+    <div class="wrapper">
+        <img src="../images/zzanggu.png" id="zzanggu">
+    </div>
+    
+</body>
+</html>

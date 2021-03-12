@@ -1,0 +1,34 @@
+<script>
+    
+    window.addEventListener("load",function(){
+
+        var x=parseInt(prompt("층수 입력"));
+        var y=parseInt(prompt("호수 입력"));
+        var z=parseInt(prompt("콘크리트 입력"));
+        
+        apt(x,y,z);
+        
+    });
+        
+        
+    function apt(x,y,z){
+
+        var table =document.createElement("table");
+        table.border=z+"px solid pink";
+        
+        for(var i=x; i>=1; i--){
+            var tr=document.createElement("tr");
+            for(var a=1; a<=y; a++){
+                var td=document.createElement("td");
+                td.innerText=i+"0"+a+"호";
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+        
+        document.body.appendChild(table);
+    }
+
+
+
+</script>

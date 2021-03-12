@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            margin: auto;
+            width: 600px;
+        }
+        #wrapper input{
+            font-size: 120px;
+            width: 150px;
+            text-align: right;
+        }
+
+    </style>
+    <script>
+        var t_min;  //input객체이고 input에 입력되는 value가 숫자이기 때문에 이것은 숫자가 아니여서 0으로 초기화 시키지 않는다!
+        var t_sec;
+
+        var min=0;  //분을 담을 전역변수(숫자이므로 초기화함)
+        var sec=0;  //초를 담을 전역변수(숫자이므로 초기화함)
+
+        //0에 대한 처리를 해주는 함수
+        function getZeroString(n){
+            //이 함수를 호출하는 자가 n에 숫자를 넘기되, 10보다 작으면 앞에 0문자를 추가하고 아니면 숫자만 반환
+            var result;
+            if(n<10){
+                result="0"+n;      //어느 한 쪽이 문자이면 +연산자는 연결자가 됨
+            }else{
+                result=n;
+            }
+            return result;
+        }
+
+        //프로그램 가동과 동시에, 초기화 시킬 작업이 있다면 init()에서 해보자
+        function init(){
+            t_min=document.getElementById("t_min");
+            t_sec=document.getElementById("t_sec");
+            //분과 초를 0으로 초기화
+            t_min.value=0;
+            t_sec.value=0;
+        }
+
+        //초를 증가시키자!
+        function countUp(){
+            sec++;
+            t_sec.value=getZeroString(sec);    //초에 출력될 데이터가 10보다 작을 경우엔
+                                                                 //앞에 0을 붙여야 한다. 따라서 문자취급해서 출력해야함!
+
+            if(sec%60==0){
+                sec=0;
+                min++;
+                t_min.value=min;
+        }
+    }
+
+        window.addEventListener("load",function(){
+            init();
+        });
+
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+    <input type="text" id="t_min">분
+    <input type="text" id="t_sec">초
+    <p></p>
+    <button onclick="countUp()">수동</button>
+</div>
+</body>
+</html>

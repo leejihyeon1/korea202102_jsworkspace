@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        #wrapper{
+            width:800px;
+            border: 1px solid red;
+            margin: auto;
+            text-align: center;
+            box-sizing: border-box;
+            padding-top: 20px;
+        }
+
+        #wrapper input{
+            width: 150px;
+            font-size: 80px;
+            text-align: center;
+        }
+
+        span{
+            font-size: 30px;
+        }
+        button{
+            border: 1px solid red;
+            width: 100px;
+            height: 30px;
+            border-radius: 7px;
+        }
+    </style>
+
+    <script>
+        var t_hour;
+        var t_min;
+        var t_sec;
+
+        var hour=0;
+        var min=0;
+        var sec=0;
+
+        var t_auto;
+        function init(){
+            t_hour=document.getElementById("t_hour");
+            t_min=document.getElementById("t_min");
+            t_sec=document.getElementById("t_sec");
+
+            t_hour.value=0;
+            t_min.value=0;
+            t_sec.value=0;
+        }
+
+        function Zero(n){
+            var result;
+            if(n<10){
+                result="0"+n;
+            }else{
+                result=n;
+            }
+            return result;
+        }
+
+        function countUp(){
+            sec++;
+            
+            if(sec%60==0){
+                sec=0;
+                min++;
+                if(min%60==0){
+                    min=0;
+                    hour++;
+                    t_sec.value=Zero(sec);
+                    t_min.value=Zero(min);
+                    t_hour.value=Zero(hour);
+                }else{
+                    t_hour.value=Zero(hour);
+                    t_sec.value=Zero(sec);
+                    t_min.value=Zero(min);
+                }
+            }else{
+                t_min.value=Zero(min);
+                t_hour.value=Zero(hour);
+                t_sec.value=Zero(sec);
+            }
+        }
+        function auto(){
+            t_auto=setInterval("countUp()",10);
+        }
+        function stop(){
+            clearInterval(t_auto);
+        }
+        window.addEventListener("load",function(){
+            init();
+        });
+
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <input type="text" id="t_hour"><span>시</span>
+        <input type="text" id="t_min"><span>분</span>
+        <input type="text" id="t_sec"><span>초</span>
+        <p>
+        <button onclick="auto()">START</button>
+        <button onclick="stop()">PAUSE</button>
+        
+    </div>
+</body>
+</html>
