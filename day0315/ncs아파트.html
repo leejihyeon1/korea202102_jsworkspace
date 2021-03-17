@@ -1,0 +1,26 @@
+<script>
+    window.addEventListener("load",function(){
+        createTable();
+    });
+
+    function createTable(){
+        var table=document.createElement("table");    
+        table.width=500+"px";
+        table.border=1+"px ";
+        
+        
+        for(var x=3; x>=1;x--){
+            var tr=document.createElement("tr");   
+            for(var i=1; i<=2; i++){
+                var td=document.createElement("td");    
+                td.innerText=x+"0"+i+"호";
+                td.style.textAlign="center"; //텍스트 정렬은 td안에서!
+                tr.appendChild(td);
+        };
+        table.appendChild(tr);  
+      };
+        
+        document.body.appendChild(table);
+
+    };
+</script>
