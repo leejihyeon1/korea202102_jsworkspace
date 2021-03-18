@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrapper{
+            width: 1000px;
+            height: 340px;
+            background-color: rgb(176, 172, 236);
+            margin: auto;
+            overflow: hidden;   /*자식이 float:left했기 때문
+                                            (position: absolute-relative 관계로 생각하기)*/
+            text-align: center;
+        }
+    </style>
+    <script>
+        var wrapper;
+        var cardArray=[];   // 생성된 카드를 담아둘 배열(순서를 두면, 추후 반복문 처리 가능)
+        var a=0.1;  //부드러운 정도 (0~1 1로 갈수록 둔탁)
+        var targetY=[];  //텍스트 박스의 목표지점, 카드가 3개 이기 때문에 배열로 부여
+        var imgArray=["1.jpg","3.jpg","5.jpg"];
+        var textArray=["가고싶다1","가고싶다2","가고싶다3"];
+
+        function init(){
+            wrapper=document.getElementById("wrapper");
+            for(var i=0; i<3; i++){
+                targetY[i]=270; //3개의 targetY의 값을 270으로 설정
+                cardArray[i]=createCard(i,imgArray[i],textArray[i]);  //생성된 카드를 전역변수로 빼놓음
+                wrapper.appendChild(cardArray[i]);   //한개 생성 호출!
+            }
+        }
+        //매개변수 index의 역할 : 0일때 targetY[0], 1일때 targetY[1], 2일때 targetY[2]
+        function createCard(index,src,msg){  //카드 한개를 생성하는 함수 
+            var card=document.createElement("div");  //이미지를 배경으로 안고있는 바깥쪽 카드
+            card.style.width=300+"px";
+            card.style.height=320+"px";
+            card.style.background="url(../images/travel2/"+src+")";
+            card.style.backgroundSize= "cover";  /*이미지의 크기가 깨지지않게 바깥쪽 크기를 늘림*/
+            card.style.position="relative";
+            card.style.overflow="hidden";
+            card.style.float="left";
+            card.style.margin=5+"px";   //다른 카드들과의 간격조정
+
+            //텍스트박스
+            var textBox=document.createElement("div");
+            textBox.style.width=300+"px";
+            textBox.style.height=320+"px";
+            textBox.style.backgroundColor="rgb(65,65,63)";
+            textBox.style.opacity=0.8;   //투명도 조절(0이투명 1은 불투명)
+            textBox.style.position="absolute";
+            textBox.style.top=270+"px";
+            textBox.innerText=msg;
+            textBox.style.color="white";
+            textBox.style.fontSize=20+"px";
+            textBox.style.textAlign="center";
+            textBox.style.boxSizing="border-box";
+            textBox.style.paddingTop=14+"px";
+
+            //마우스오버 이벤트
+            textBox.addEventListener("mouseover",function(){
+                //top의 좌표를 0으로 올라가보자!
+                targetY[index]=0;
+            });
+            textBox.addEventListener("mouseout",function(){
+                //top의 좌표를 원래대로로 올라가보자!
+                targetY[index]=270;
+            });
+
+            card.appendChild(textBox);
+
+            return card;
+        }
+        function slideUpDown(){   //텍스트박스 부드럽게 올리고 내리기
+            for(var i=0; i<cardArray.length; i++){  //3개의 카드 각자마다..움직임 적용
+            //물체위치=기존물체위치+a*(목표지점-기존물체위치)
+            var textBox=cardArray[i].children[0];   //textBox라는 안쪽 div 지칭
+            // console.log(textBox);    
+            textBox.style.top=parseFloat(textBox.style.top)+a*(targetY[i]-parseFloat(textBox.style.top))+"px";
+            //정교하게 하기 위해 parseFloat
+            
+            }
+        }
+
+        window.addEventListener("load",function(){
+            init();
+            setInterval("slideUpDown()",50);
+        });
+    </script>
+</head>
+<body>
+    <div id="wrapper"></div>
+</body>
+</html>

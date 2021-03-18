@@ -80,15 +80,15 @@
                     rect.style.float="left";
                     //각 사각형에 개발자가 원하는 정보를 심어놓을 수만 있다면, 나중에 활용하기에 좋음
                     rect.id=[a,i];
-                    rect.innerText=rect.id;
+                    //rect.innerText=rect.id;
                     content.appendChild(rect);                
                     lineBox.push(rect); //생성된 사각형을 배열에 담자!
 
                     //생성되는 모든 사각형에 대해 마우스 이벤트 부여!
                     //반복문에 넣어봤자 이벤트가 발생해야 작동하기 때문에 반복문이랑 상관 X
-                    rect.addEventListener("click",function(){
+                    rect.addEventListener("mouseover",function(){
                         //지금 이벤트를 일으킨 요소의 .style중 배경색 변경
-                        if(true){
+                        if(flag){
                             this.style.background="black";  //this는 지금 이벤트를 일으킨 요소임!!!
                              //층,호수를 구해서 일차원 배열로 저장한 후, 최종적으로 recordArray[]에 저장!
 
