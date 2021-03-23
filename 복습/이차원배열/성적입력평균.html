@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var school=[];
+        var bbname=[];
+        var avg=[];
+        var stu;
+        var ban;
+
+
+        function init(){
+            ban=parseInt(prompt("반 개수?"));   
+            stu=parseInt(prompt("학생이 몇명?"));      //length
+
+            for(var i=0; i<ban; i++){
+                var cl=[];
+                var bname=[];
+                var sum=0;
+
+                for(var x=0; x<stu; x++){
+                    var d=prompt((i+1)+"반"+(x+1)+"번의 이름은?");
+                    var c=parseInt(prompt((i+1)+"반"+(x+1)+"번의 성적은?"));
+                    cl.push(c);
+                    bname.push(d);
+                    sum+=c;
+                
+                }
+                sum/=stu;
+                school.push(cl);
+                bbname.push(bname);
+                avg.push(sum);
+            }
+        }
+
+        function ask(){
+            var a=parseInt(prompt("몇반?"));   
+            var b=parseInt(prompt("몇번?"));      
+
+            
+            document.write(bbname[a-1][b-1]+" 은(는)"+school[a-1][b-1]+"점 이다!");
+            document.write(a+"반의 평균은 "+avg[a-1]+"이다!");
+        }
+
+        function show(){
+            for(var i=0; i<school.length; i++){
+                document.write((i+1)+"반의 전체 성적은 ----------<br>");
+                for(var x=0; x<school[i].length; x++){
+                     document.write(bbname[i][x]+"은(는)"+school[i][x]+"점<br>");
+                }
+            }
+        }
+      window.addEventListener("load",function(){
+         init();
+      })
+    </script>
+</head>
+<body>
+    <button onclick="ask()">성적 조회</button>
+    <button onclick="show()">전체 성적 조회</button>
+</body>
+</html>

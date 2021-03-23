@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+    #wrapper{
+        width: 900px;
+        height: 1200px;
+        margin: auto;
+        border: 5px solid blue;
+        overflow: hidden;
+        position: relative;
+    }
+    #left{
+        width: 300px;
+        height: 100%;
+        float: left;
+        position: relative;
+        background: red;                    
+    }
+    #center{
+        width: 300px;
+        height: 100%;
+        float: left;
+        position: relative;
+        background: orange;
+    }
+    #right{
+        width: 300px;
+        height: 100%;
+        float: left;
+        position: relative;
+        background: yellow;
+    }
+</style>
+<script src="./monster.js"></script>
+<script src="../../js/lib.js"></script>
+<script>
+var wrapper1;
+var left1;
+var center1;
+var right1;
+var monsterAr=[];
+var positionArr;
+var imgsrc=["../../images/zzanggu.png","../../images/run.png","../../images/dog.jpeg"];
+
+function init(){
+    wrapper1=document.getElementById("wrapper");
+    left1=document.getElementById("left");
+    center1=document.getElementById("center");
+    right1=document.getElementById("right");
+
+    positionArr=[left1,center1,right1];
+
+    }
+
+function space(){
+    if(event.keyCode==32){
+        createMonster();
+
+    }
+}
+function createMonster(){
+    var n=positionArr.length;
+    var monster=new Monster(positionArr[getRandom(n)],imgsrc[getRandom(n)],
+                                    getRandom(3),getRandom(100)+1); //getRandom은 <n까지
+    monsterAr.push(monster);    //정보를 기록해야 그 정보를 가지고 move() 호출이 가능하기 때문
+    }
+
+function auto(){
+    for(var i = 0; i < monsterAr.length; i++){
+        monsterAr[i].move();    
+    }
+}
+
+window.addEventListener("load",function(){
+    init();
+    
+setInterval("auto()",200);
+})
+</script>
+</head>
+<body onkeydown="space()">
+<div id="wrapper">
+    <div id="left"></div> 
+    <div id="center"></div>
+    <div id="right"></div>
+</div>      
+</body>
+</html>
