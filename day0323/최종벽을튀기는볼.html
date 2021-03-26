@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style></style>
+<script src="../js/ball.js"></script>
+<script src="../js/lib.js"></script>
+<script>
+var wrapper;
+// var colorArray=["red","black","blue","purple","pink","green","orange"];
+var ballArr=["ball.webp","ball1.png","ball2.png","ball3.png","ball4.png"];
+var balls=[];
+// var ball;   //볼 한개를 가리킬 수 있는 전역변수
+
+function init(){
+    createWall();
+}
+//공을 가두어 놓을 벽
+function createWall(){
+    wrapper=document.createElement("div");
+    wrapper.style.width=800+"px";
+    wrapper.style.height=700+"px";
+    wrapper.style.margin="auto";
+    wrapper.style.border=5+"px solid red";
+    wrapper.style.position="relative";  //자식인 공 때문에 ..
+    document.body.appendChild(wrapper);
+}
+function createBall(){
+    var velX=getRandom(10)+1;
+    var velY=getRandom(10)+1;
+
+    var n=ballArr.length;
+    var ball=new Ball(wrapper,"../images/ball/"+ballArr[getRandom(n)]
+                                ,35,35,velX,velY); //생성되는 공은 wrapper에 부착됨!
+                                            //디렉토리 경로와 파일명을 연결시킴!
+
+    balls.push(ball);//클래스는 한번만 실행하기 때문에 배열에 담아서 move()등 다른 기능을 수행시켜야함!
+}
+function auto(){
+    for(var i=0; i<balls.length; i++){
+        balls[i].move();
+    }
+}
+//키보드의 스페이스 바를 누르면, 볼을 생성해보자!
+function space(){
+    if(event.keyCode==32){
+        createBall();
+    }
+}
+window.addEventListener("load",function(){
+    init();
+    setInterval("auto()",50);
+});
+</script>
+</head>
+<body onkeydown="space()">
+</body>
+</html>
