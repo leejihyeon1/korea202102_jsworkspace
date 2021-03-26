@@ -68,10 +68,10 @@
         // }
 
         switch(key){
-            case 39: plane.velX+=5; break;    //break필수!!!!!!!!!
-            case 37: plane.velX-=5; break;    //break필수!!!!!!!!!
-            case 38: plane.velY-=5; break;    //break필수!!!!!!!!!
-            case 40: plane.velY+=5; break;    //break필수!!!!!!!!!
+            case 39: plane.velX=5; break;    //break필수!!!!!!!!!
+            case 37: plane.velX=-5; break;    //break필수!!!!!!!!!
+            case 38: plane.velY=-5; break;    //break필수!!!!!!!!!
+            case 40: plane.velY=5; break;    //break필수!!!!!!!!!
             case 32: fire(); break;
 
         }
@@ -115,8 +115,10 @@
 
         //생성된 모든~총알에 대해 각각 tick(),render() 메서드 호출
         for(var i=0; i<bulletArray.length; i++){
-            bulletArray[i].render();
-            bulletArray[i].tick();  //배열 삭제는 여기서 수행되기 때문에, 화면에서의 삭제를 먼저하고 배열 삭제!
+            bulletArray[i].render();    //할일!
+            bulletArray[i].tick();  //배열 삭제는 여기서 수행되기 때문에, 
+                                            //화면에서의 삭제를 먼저하고 배열 삭제!
+                                            //할일을 하고 죽어야 함!
         }
 
         for(var i=0; i<enemyArray.length; i++){
