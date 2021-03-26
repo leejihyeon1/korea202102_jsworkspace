@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모자이크</title>
+<script src="../js/rect.js"></script>
+<script src="../js/lib.js"></script>
+<script>
+    var container;
+    var cellSize=100;//셀 하나당 너비,높이가 같은 정사각형
+    var cols=5;//호수 즉, column의 개수
+    var rows=3;//층수 즉, record 개수
+    var i=0;//층수
+    var a=0;//호수
+    var count=0;//setInterval 이 언제까지 수행할
+    var colorArray=["red","black","blue","purple","pink","green","orange","green","yellow","navy"];
+    // var rectArray=new Array();
+
+    function init(){
+        container=document.createElement("div");
+        container.style.width=(cellSize*cols)+"px";
+        container.style.height=(cellSize*rows)+"px";
+        container.style.margin="auto";
+        container.style.backgroundImage="url(../images/travel2/1.jpg)";
+        container.style.backgroundSize=(cellSize*cols)+"px"+(cellSize*rows)+"px";
+        container.style.position="relative";
+
+        //화면 부착
+        document.body.appendChild(container);
+        // createRect();
+    }
+    //사각형 셀 생성
+    function createRect(){
+        //10호수의 7층짜리 아파트 생성
+        // for(var i=0; i<rows; i++){
+            // for(var a=0; a<cols; a++){
+                var rect=new Rect(container,100,100,cellSize*a,cellSize*i,colorArray[getRandom(colorArray.length)]);
+                a++;
+                //i가 호수의 끝에 도달하면 다시 i를 0으로 돌려놓아야 순환됨
+                if(a%cols==0){
+                    i++;//층수증가
+                    a=0;//i다시 돌려놓음
+                }
+                // rectArray.push(rect);
+            // }
+        // }
+    }
+    function auto(){    //for문(반복문)이 너무 빠르므로, 원하는 시간을 지정하여 반복 수행을 대신 해보자!
+        if(count<(cols*rows)){
+            createRect();
+            count++;
+        }
+
+    }
+    window.addEventListener("load",function(){
+        init();
+        setInterval("auto()",300);
+    });
+</script>
+</head>
+<body>
+
+</body>
+</html>
