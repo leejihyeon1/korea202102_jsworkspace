@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+    #wrapper{
+        width: 1200px;
+        height: 700px;
+        background: yellow;
+        margin: auto;
+        overflow: hidden;
+    }
+    #side{
+        width: 200px;
+        height: 100%;
+        background: yellowgreen;
+        float: left;
+    }
+    #content{
+        width: 1000px;
+        height: 100%;
+        float: left;
+    }
+    #side *{ 
+        width: 95%;
+    }
+    #side input[type="text"]{
+        height: 20px;
+    }
+    #side textarea{
+        height: 100px;
+    }
+</style>
+<script>
+    var content;
+    var myCenter; //현재 맵의 중심점
+    var lati,lngi;//위도와 경도를 받는 텍스트 필드
+    var googleMap;
+    var imgSelect;
+    var storeList={
+        "stores":[
+            {
+                "name":"프라이팬",
+                "image":"../images/store/fripan.jpg"
+            },
+            {
+                "name":"이탤리",
+                "image":"../images/store/italy.jpg"
+            },
+            {
+                "name":"떡볶이",
+                "image":"../images/store/ricecake.jpg"
+            },
+            {
+                "name":"삼곱집",
+                "image":"../images/store/samgob.jpg"
+            },
+            {
+                "name":"우리식당",
+                "image":"../images/store/woori.jpg"
+            }
+        ]
+    };
+
+        function init(){
+            // alert("구글 맵 준비완료");
+            content=document.getElementById("content");
+            lati=document.getElementById("lati");
+            lngi=document.getElementById("lngi");
+            imgSelect=document.getElementById("imgSelect");
+
+            // 맵의 중심점에 대한 좌표 및 카메라 줌 확대비율을 설정하자!
+            myCenter= new google.maps.LatLng(37.50043413969835, 127.036314854711);
+            var mapProp={
+                center:myCenter,
+                zoom:18
+            };
+            //설정 정보를 구글맵 객체에 적용(어디에?,무엇을?)
+            googleMap = new google.maps.Map(content,mapProp);
+
+            //마커 만들기
+            var marker = new google.maps.Marker({position: myCenter});
+
+            marker.setMap(googleMap);//생성된 마커를 적용할 맵 지정
+
+
+
+            createImg();
+        }
+
+        //선택할 이미지 옵션 목록 생성 
+        function createImg(){
+            for(var store of storeList.stores){  //in=> 배열의 인덱스, of=>배열의 내용
+            var op=document.createElement("option");
+            op.text=store.name;
+            op.value=store.image;
+
+            imgSelect.add(op);//생성된 옵션을 select박스에 붙이기 
+        }
+    }
+
+        //위도와 경도를 변경하여, 마커를 찍어보자!
+        function apply(){
+            myCenter = new google.maps.LatLng(lati.value,lngi.value);
+            var marker = new google.maps.Marker({position: myCenter});
+            marker.setMap(googleMap);
+
+            //카메라의 중심점을 현재 찍힌 마커로 이동
+            googleMap.setCenter(marker.getPosition());
+
+            google.maps.event.addListener(marker,'click',function(){
+                //인포메이션 윈도우 띄우기
+                var tag="<h3>"+document.getElementById("store_name").value+"</h3>";
+                tag+="<img src=\""+imgSelect.value+"\" width=\"60px\"><p>";
+                tag+=document.getElementById("detail").value;
+                var infowindow = new google.maps.InfoWindow({//json안은 세미콜론XXXXXXXXXX!
+                content:tag
+                });
+    
+                infowindow.open(googleMap,marker);
+            })
+
+        }
+
+        //선택한 상점의 이미지 미리보기
+        function preview(){
+            document.getElementById("zzang").src=imgSelect.value;
+        }
+        function registByJson(){
+            //체크박스가 체크된 상태라면 , json 입력 textarea보여주고, 아니면 안보이게
+            var vision=(document.getElementById("ch").checked)? "block":"none";
+            document.getElementById("dump").style.display=vision;
+        }
+
+        //제이슨을 이용한 일괄등록
+        function applyAll(){
+            // alert("json으로 등록할까?");
+            // textarea에 작성된 문자열 내의 json표기를 실제 json 객체화 시켜보자!
+            // 그러기 위해서는 문자열을 제거하고, json으로 해서을 하자!
+            var json=JSON.parse(document.getElementById("dump").value);//파싱할 대상 문자
+
+            console.log(json);
+            var markerArray=[];//여러개의 마커를 반복문 돌때 보관할 용도
+            //마커만들기
+            for(var i=0; i<json.storeList.length;i++){
+                var jumpo=json.storeList[i];//점포 하나를 접근
+
+                var myCenter = new google.maps.LatLng(jumpo.latLng.lat,jumpo.latLng.lng);
+                var marker = new google.maps.Marker({
+                    position: myCenter,
+                    index : i
+                });
+                markerArray.push(marker);
+                marker.setMap(googleMap);
+
+                googleMap.setCenter(marker.getPosition());
+
+                google.maps.event.addListener(marker,'click',function(){
+                    //인포메이션 윈도우 띄우기
+                    //여기서의 this는 이 이벤트를 일으킨 주체
+                    console.log("당신이 클릭한 마커의 index는 ",this.index);
+                    var tag="<h3>"+json.storeList[this.index].name+"</h3>";
+                    tag+="<img src=\""+json.storeList[this.index].image+"\" width=\"60px\"><p>";
+                    tag+=json.storeList[this.index].review;
+                    var infowindow = new google.maps.InfoWindow({//json안은 세미콜론XXXXXXXXXX!
+                    content:tag
+                });
+    
+                    infowindow.open(googleMap,markerArray[this.index]);
+            })
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="side">
+            <input type="text" placeholder="상호입력" id="store_name">
+            <textarea id="detail"></textarea>
+
+            <!-- 기존에 선택한 옵선과 다른 값이 선택 됐을 때만 즉, 선택값이 바뀌었을 때 감지 (onChange) -->
+            <select id="imgSelect" onChange="preview()">
+                <option value="">이미지 선택</option>
+            </select>
+
+            <img src="../images/zzanggu.png" alt="" id="zzang">
+
+            일괄등록:<input type="checkbox" id="ch" onclick="registByJson()">
+
+            <textarea placeholder="json 데이터 입력" id="dump" style="display: none;"></textarea>
+            <input type="text" value="37.57283844029162" placeholder="위도" id="lati">
+            <input type="text" value="126.97687954827418" placeholder="경도" id="lngi">
+            <button onclick="(document.getElementById('ch').checked)? applyAll():apply()">적용</button>
+        </div>
+        <div id="content"></div>
+    </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlcTq-L_LfVMQNKZTFR4DNL-hBwNpXb3s&callback=init"></script>
+</body>
+</html>
